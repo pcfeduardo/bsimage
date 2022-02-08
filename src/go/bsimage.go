@@ -56,6 +56,7 @@ func main() {
 
 	fmt.Println("** BSImage (build&scan image)")
 	fmt.Println("** build image and scan with trivy opensource\n")
+	fmt.Println("** you can contribute to this project! visit https://github.com/pcfeduardo/bsimage\n")
 
 	if len(os.Args) < 3 {
 		// fmt.Println("Usage: " + os.Args[0] + " <image:tag> <dir_path> <dockerfile>")
