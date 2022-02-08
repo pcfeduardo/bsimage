@@ -4,12 +4,19 @@
 - [Trivy](https://github.com/aquasecurity/trivy)
 - [Docker](https://www.docker.com/get-started)
 
-## Usage of build (shell script)
+## BSImage (shell script version)
+
+### Usage of build (shell script version)
 ```
-./build.sh start <image:tag> <dir_path> <dockerfile>
+./bsimage.sh start <image:tag> <dir_path> <dockerfile>
 ```
 
-## Usage of bsimage (go application)
+## BSImage (golang version)
+### Installing bsimage
+```
+sudo curl -o /usr/local/bin/bsimage https://raw.githubusercontent.com/pcfeduardo/bsimage/master/bsimage && chmod +x /usr/local/bin/bsimage
+```
+### Usage of bsimage (golang version)
 ```
 bsimage <image:tag> <dockerfile>
 ```
