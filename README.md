@@ -12,9 +12,9 @@
 ```
 
 ## BSImage (golang version)
-### Installing bsimage
+### Installing bsimage on Linux
 ```
-sudo curl -o /usr/local/bin/bsimage https://raw.githubusercontent.com/pcfeduardo/bsimage/master/bsimage && chmod +x /usr/local/bin/bsimage
+sudo curl -o /usr/local/bin/bsimage https://raw.githubusercontent.com/pcfeduardo/bsimage/master/bin/bsimage_linux && chmod +x /usr/local/bin/bsimage
 ```
 ### Usage of bsimage (golang version)
 ```
