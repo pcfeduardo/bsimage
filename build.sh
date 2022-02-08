@@ -6,41 +6,60 @@ PLATFORM="linux/amd64"
 TRIVY="$(which trivy)"
 DOCKER="$(which docker)"
 ECHO="$(which echo)"
-IMAGETAG=$2
-PATH=$3
-DOCKERFILE=$4
-EVIDENCE=${RANDOM}${RANDOM}.log
+PLATFORM="linux/amd64"
+BASENAME="$(which basename)"
+TR="$(which tr)"
+DIRLOG="$PWD/log"
+DIR="$(which mkdir)"
+
+if [ -z "$2" ]; then
+    IMAGETAG=$(echo $($BASENAME $PWD) | ($TR A-Z a-z))  
+    EVIDENCE=$IMAGETAG-${RANDOM}.log
+    PATH=$PWD
+    DOCKERFILE="dockerfile"
+else
+    PATH=$3
+    DOCKERFILE=$4
+    EVIDENCE=$2_${RANDOM}.log
+    IMAGETAG=$2
+fi
+
 
 build(){
-    echo "** Building..."
-    ${DOCKER} image build -f ${PATH}/${DOCKERFILE} -t ${IMAGETAG} ${PATH} --platform=${PLATFORM} -q
+    echo $'\342\232\231' " Building..."
+    echo -e "\e[1;33m"
+    $DOCKER image build $PATH -t $IMAGETAG --platform=${PLATFORM} -f ${PATH}/${DOCKERFILE}
+    echo -e "\e[33;0m"
 }
 
 banner(){
     ${ECHO} "** BSImage (build&scan image)"
     ${ECHO} "** build image and scan with trivy opensource"
 }
+
 scan(){
-    echo "** Scanning..."
-    $TRIVY image --exit-code 1 ${IMAGETAG} >> ${EVIDENCE}
+
+    if [ ! -d "$DIRLOG" ]; then
+        $DIR $DIRLOG
+    fi 
+    
+    echo $'\342\217\261' " Scanning..."
+    $TRIVY image --exit-code 1 ${IMAGETAG} >> log/${EVIDENCE}
+
     if [ $? == 0 ]
     then
-        ${ECHO} "Approved! :)"
+        ${ECHO} -e "\e[1;32mApproved! :)"
     else
-        ${ECHO} "Not approved! :("
+        ${ECHO} -e $'\360\237\222\243' "\e[1;31m Not approved! :("
     fi
-    ${ECHO} "You can check this evidence log file: ${EVIDENCE}"
+    ${ECHO} -e "\e[33;0mYou can check this evidence logfile: log/${EVIDENCE}"
+
 }
 
 case "$1" in
     "start")
         banner
-        if [ -z $2 ] || [ -z $3 ] || [ -z $4 ] 
-        then
-            ${ECHO} "** Missing parameters"
-            exit 1
-        fi
-        ${ECHO} "** Starting..."
+        echo $'\360\237\222\273' "Starting..."
         build
         scan
 ;;
