@@ -35,6 +35,7 @@ func scan(pathTrivy string, timestamp string) {
 	if err != nil {
 		log.Fatalf("\n\n\033[31mALERT!!! Vulnerable image!\033[0m")
 	}
+	fmt.Println("\n\n\033[32m** Congratulations! Image approved! :)\033[0m\n")
 }
 
 func main() {
@@ -59,14 +60,11 @@ func main() {
 	fmt.Println("** you can contribute to this project! visit https://github.com/pcfeduardo/bsimage\n")
 
 	if len(os.Args) < 3 {
-		// fmt.Println("Usage: " + os.Args[0] + " <image:tag> <dir_path> <dockerfile>")
 		fmt.Println("Usage: " + os.Args[0] + " <image:tag> <dockerfile>")
 		os.Exit(1)
 	}
 
 	build(pathDocker)
 	scan(pathTrivy, now.Format("20060201150405"))
-	fmt.Println("\n\n\033[32m** Congratulations! Image approved! :)\033[0m\n")
-	// test()
 
 }
