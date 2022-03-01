@@ -1,22 +1,32 @@
-# BSImage (build&scan image)
+# bsimage - build & scan image tool
 
 ## Requirements 
-- [Trivy](https://github.com/aquasecurity/trivy)
+- [Trivy](https://aquasecurity.github.io/trivy)
 - [Docker](https://www.docker.com/get-started)
 
-## BSImage (shell script version)
+## Usage
+```
+usage: bsimage.py [--dockerfile DOCKERFILE] [--only-os] image
+```
+### Syntax
+- --dockerfile or -d: if this option is set, bsimage will automatically build the image with the specified file
+- --only-os or -o: this option forces the scan to scan only the operating system layer
+- image: image name
+#### Examples
+- Building image using Dockerfile
+```
+bsimage.py -d Dockerfile myimage:1.0
+bsimage.py -d dockerfile-customized myimage:1.0
+bsimage.py --dockerfile Dockerfile myimage:1.0
+```
 
-### Usage of build (shell script version)
+- Scanning only the operating system layer
 ```
-./bsimage.sh start <image:tag> <dir_path> <dockerfile>
+bsimage.py -o myimage:1.0
+bsimage.py --only-os myimage:1.0
 ```
 
-## BSImage (golang version)
-### Installing bsimage on Linux
+- Building and Scanning (only OS layer)
 ```
-sudo curl -o /usr/local/bin/bsimage https://raw.githubusercontent.com/pcfeduardo/bsimage/master/bin/bsimage_linux && chmod +x /usr/local/bin/bsimage
-```
-### Usage of bsimage (golang version)
-```
-bsimage <image:tag> <dockerfile>
+bsimage.py -d Dockerfile -o myimage:1.0
 ```
